@@ -1,0 +1,15 @@
+{
+  "name": "Http_Static_Server_Ts",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/baozoudashijian/Http_Static_Server_Ts.git",
+  "author": "Roger Zhang <1787009521@qq.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "ts-node-dev": "^1.1.8",
+    "typescript": "^4.6.3"
+  },
+  "scripts": {
+    "start": "./node_modules/.bin/ts-node-dev ./index.ts"
+  }
+}
