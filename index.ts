@@ -38,6 +38,9 @@ server.on('request', (req: http.IncomingMessage, res: http.ServerResponse) => {
                 res.end(data.toString())
             })
             break;
+        default:
+            res.statusCode = 404
+            res.end()
     }
 
     let body = ""
