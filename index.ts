@@ -7,13 +7,21 @@ const server = http.createServer()
 
 server.on('request', (req: http.IncomingMessage, res: http.ServerResponse) => {
 
-    const p = url.parse(req.url).pathname
+    let p = url.parse(req.url).pathname
     const publicDir = path.join(__dirname, '/public')
-    console.log(p)
+    p = p === '/' ? '/index.html' : p
 
     fs.readFile(path.join(publicDir, p), (err, data) => {
-        if(err) {
-            console.log(err)
+        if (err) {
+            if (err.errno == -2) {
+                let png404 = path.join(publicDir, 'img/404.jpeg')
+                fs.readFile(png404, (err, data) => {
+                    if (err) {
+                        return false
+                    }
+                    res.end(data)
+                })
+            }
             return false
         }
         res.end(data)
