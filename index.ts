@@ -7,41 +7,17 @@ const server = http.createServer()
 
 server.on('request', (req: http.IncomingMessage, res: http.ServerResponse) => {
 
-    const p = url.parse(req.url).path
+    const p = url.parse(req.url).pathname
     const publicDir = path.join(__dirname, '/public')
+    console.log(p)
 
-    switch (p) {
-        case '/index.html':
-            fs.readFile(path.join(publicDir, '/index.html'), (err, data) => {
-                if (err) {
-                    console.log(err)
-                    return false
-                }
-                res.end(data.toString())
-            })
-            break;
-        case '/index.css':
-            fs.readFile(path.join(publicDir, '/index.css'), (err, data) => {
-                if (err) {
-                    console.log(err)
-                    return false
-                }
-                res.end(data.toString())
-            })
-            break;
-        case '/index.js':
-            fs.readFile(path.join(publicDir, '/index.js'), (err, data) => {
-                if (err) {
-                    console.log(err)
-                    return false
-                }
-                res.end(data.toString())
-            })
-            break;
-        default:
-            res.statusCode = 404
-            res.end()
-    }
+    fs.readFile(path.join(publicDir, p), (err, data) => {
+        if(err) {
+            console.log(err)
+            return false
+        }
+        res.end(data)
+    })
 
     let body = ""
     req.on('data', (chunk) => {
