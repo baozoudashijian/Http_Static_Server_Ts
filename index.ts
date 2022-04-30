@@ -7,7 +7,6 @@ const server = http.createServer()
 
 server.on('request', (req: http.IncomingMessage, res: http.ServerResponse) => {
 
-    console.log(req.method, '请求方法')
     if(req.method != 'GET') {
         res.statusCode = 405
         res.end()
@@ -16,7 +15,7 @@ server.on('request', (req: http.IncomingMessage, res: http.ServerResponse) => {
     let p = url.parse(req.url).pathname
     const publicDir = path.join(__dirname, '/public')
     p = p === '/' ? '/index.html' : p
-
+    console.log(p)
     fs.readFile(path.join(publicDir, p), (err, data) => {
         if (err) {
             if (err.errno == -2) {
@@ -29,6 +28,9 @@ server.on('request', (req: http.IncomingMessage, res: http.ServerResponse) => {
                 })
             }
             return false
+        }
+        if(p.endsWith('.js') || p.endsWith('.css')) {
+            res.setHeader('Cache-Control', 'public, max-age=31536000')
         }
         res.end(data)
     })
