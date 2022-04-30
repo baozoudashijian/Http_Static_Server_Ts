@@ -7,6 +7,12 @@ const server = http.createServer()
 
 server.on('request', (req: http.IncomingMessage, res: http.ServerResponse) => {
 
+    console.log(req.method, '请求方法')
+    if(req.method != 'GET') {
+        res.statusCode = 405
+        res.end()
+    }
+
     let p = url.parse(req.url).pathname
     const publicDir = path.join(__dirname, '/public')
     p = p === '/' ? '/index.html' : p
